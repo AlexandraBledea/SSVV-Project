@@ -16,13 +16,14 @@ public class StudentValidator implements Validator<Student> {
            This test case was placed after the empty string check
          */
 
+        if(entity.getID() == null){
+            throw new ValidationException("Id incorect!");
+        }
+        
         if(entity.getID().equals("")){
             throw new ValidationException("Id incorect!");
         }
 
-        if(entity.getID() == null){
-            throw new ValidationException("Id incorect!");
-        }
         if(entity.getNume() == ""){
             throw new ValidationException("Nume incorect!");
         }
