@@ -84,6 +84,12 @@ public class TestAddAssignment {
     }
 
     @Test
+    void testAddAssignmentDeadlineTooSmall() {
+        Tema newTema = new Tema("1", "a", 0, 1);
+        assertThrows(ValidationException.class, () -> this.service.addTema(newTema));
+    }
+
+    @Test
     void testAddAssignmentReceivedTooSmall() {
         Tema newTema = new Tema("1", "a", 1, 0);
         assertThrows(ValidationException.class, () -> this.service.addTema(newTema));
