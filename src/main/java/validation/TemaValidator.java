@@ -11,6 +11,11 @@ public class TemaValidator implements Validator<Tema> {
      */
     @Override
     public void validate(Tema entity) throws ValidationException {
+
+        /*
+            if(entity.getID().equals("") || entity.getID() == null) -> asta era inainte de fix
+         */
+
         if(entity.getID() == null || entity.getID().equals("")) {
             throw new ValidationException("Numar tema invalid!");
         }
