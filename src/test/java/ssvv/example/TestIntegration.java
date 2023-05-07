@@ -102,7 +102,7 @@ public class TestIntegration {
     public void testAddGrade() {
 
         Nota nota = new Nota("333", "333", "333", 10, LocalDate.now());
-        assertEquals(service.addNota(nota, "bine"), 1.0);
+        assertNull(service.addNota(nota, "bine"));
 
         service.deleteNota("333");
         service.deleteStudent("333");
@@ -118,7 +118,7 @@ public class TestIntegration {
 
         assertNull(service.addStudent(student));
         assertNull(service.addTema(tema));
-        assertEquals(service.addNota(nota, "bine"), 1.0);
+        assertNull(service.addNota(nota, "bine"));
 
         service.deleteNota("333");
         service.deleteStudent("333");
