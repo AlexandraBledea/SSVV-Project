@@ -155,27 +155,33 @@ public class Service {
 
     /**
      * Adauga o nota
-     * @param nota - nota
+     *
+     * @param nota     - nota
      * @param feedback - feedback-ul notei
      * @return null daca nota a fost adaugata sau nota daca aceasta exista deja
      */
-    public double addNota(Nota nota, String feedback){
+    public Nota addNota(Nota nota, String feedback) {
         notaValidator.validate(nota);
         Student student = studentFileRepository.findOne(nota.getIdStudent());
         Tema tema = temaFileRepository.findOne(nota.getIdTema());
-        int predare = calculeazaSPredare(nota.getData());
-        if(predare != tema.getDeadline()){
-            if (predare-tema.getDeadline() == 1){
-                nota.setNota(nota.getNota()-2.5);
-            } else if(predare-tema.getDeadline() == 2){
-                nota.setNota(nota.getNota() - 5);
+
+        Nota n = notaFileRepository.findOne(nota.getID());
+
+        if (n == null) {
+
+            int predare = calculeazaSPredare(nota.getData());
+            if (predare != tema.getDeadline()) {
+                if (predare - tema.getDeadline() == 1) {
+                    nota.setNota(nota.getNota() - 2.5);
+                } else if (predare - tema.getDeadline() == 2) {
+                    nota.setNota(nota.getNota() - 5);
+                } else if (predare - tema.getDeadline() > 2) {
+                    nota.setNota(1);
+                }
             }
-            else if(predare-tema.getDeadline() > 2){
-                nota.setNota(1);
-            }
-        }
-        var result = notaFileRepository.save(nota);
-        if(result == null) {
+
+            this.notaFileRepository.save(nota);
+
             String filename = "fisiere/" + student.getNume() + ".txt";
             try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filename, true))) {
                 bufferedWriter.write("\nTema: " + tema.getID());
@@ -187,8 +193,11 @@ public class Service {
             } catch (IOException exception) {
                 throw new ValidationException(exception.getMessage());
             }
+
+            return null;
         }
-        return nota.getNota();
+
+        return nota;
     }
 
     /**
